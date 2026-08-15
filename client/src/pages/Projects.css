@@ -1,0 +1,27 @@
+.projects-page {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+  }
+  
+  .project-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+  
+  .project-form input {
+    padding: 10px;
+  }
+  
+  .project-form button {
+    padding: 10px 16px;
+    cursor: pointer;
+  }
+  
+  .project-card {
+    border: 1px solid #ddd;
+    padding: 16px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+  }

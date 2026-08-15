@@ -1,10 +1,50 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+
+import Login from './pages/Login'
+import Register from './pages/Register'
+import Dashboard from './pages/Dashboard'
+import ProtectedRoute from './components/ProtectedRoute'
+import Projects from './pages/Projects'
+import ProjectBoard from './pages/ProjectBoard'
+
 function App() {
-    return (
-      <main>
-        <h1>SprintFlow</h1>
-        <p>Developer Workspace for Small Software Teams</p>
-      </main>
-    )
-  }
-  
-  export default App
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+        path="/projects"
+        element={
+            <ProtectedRoute>
+            <Projects />
+            </ProtectedRoute>
+        }
+        />
+
+        <Route
+        path="/projects/:projectId"
+        element={
+            <ProtectedRoute>
+            <ProjectBoard />
+            </ProtectedRoute>
+        }
+        />
+
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+export default App
