@@ -1,0 +1,31 @@
+.project-board {
+    padding: 30px;
+  }
+  
+  .task-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+  }
+  
+  .kanban-board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  
+  .kanban-column {
+    background: #f5f5f5;
+    padding: 16px;
+    border-radius: 8px;
+    min-height: 300px;
+  }
+  
+  .task-card {
+    background: white;
+    padding: 14px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }

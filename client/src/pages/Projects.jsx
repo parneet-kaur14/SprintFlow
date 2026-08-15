@@ -15,8 +15,18 @@ function Projects() {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((response) => response.json())
+    .then((response) => {
+        if (!response.ok) {
+          throw new Error('Unable to load projects')
+        }
+      
+        return response.json()
+      })
       .then((data) => setProjects(data))
+      .catch((error) => {
+        console.error('Unable to load projects:', error)
+        setProjects([])
+      })
       .catch((error) => console.error('Unable to load projects:', error))
   }, [])
 
