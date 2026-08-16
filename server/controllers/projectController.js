@@ -1,6 +1,7 @@
 const {
     getProjectsByOwner,
     createProject,
+    getProjectById,
   } = require('../models/projectModel')
   
   const getProjects = async (req, res) => {
@@ -42,8 +43,32 @@ const {
       })
     }
   }
+
+  const getProject = async (req, res) => {
+    try {
+      const project = await getProjectById(
+        req.params.projectId,
+        req.user.userId
+      )
+  
+      if (!project) {
+        return res.status(404).json({
+          message: 'Project not found',
+        })
+      }
+  
+      res.json(project)
+    } catch (error) {
+      console.error('Unable to retrieve project:', error.message)
+  
+      res.status(500).json({
+        message: 'Unable to retrieve project',
+      })
+    }
+  }
   
   module.exports = {
     getProjects,
     addProject,
+    getProject,
   }

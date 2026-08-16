@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import './Projects.css'
+import { Link, useNavigate } from 'react-router-dom'
 
 function Projects() {
   const [projects, setProjects] = useState([])
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
+  const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -16,39 +18,68 @@ function Projects() {
       },
     })
     .then((response) => {
+        if (response.status === 401) {
+          localStorage.removeItem('token')
+          localStorage.removeItem('user')
+          navigate('/login')
+          throw new Error('Session expired')
+        }
+      
         if (!response.ok) {
           throw new Error('Unable to load projects')
         }
       
         return response.json()
       })
-      .then((data) => setProjects(data))
+      .then((data) => {
+        setProjects(data)
+        setLoading(false)
+      })
       .catch((error) => {
         console.error('Unable to load projects:', error)
         setProjects([])
+        setLoading(false)
       })
-      .catch((error) => console.error('Unable to load projects:', error))
   }, [])
 
   const handleCreateProject = async (event) => {
     event.preventDefault()
-
+  
     const token = localStorage.getItem('token')
+  
+    try {
+      const response = await fetch('http://localhost:5050/api/projects', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ name, description }),
+      })
+  
+      if (response.status === 401) {
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        navigate('/login')
+        return
+      }
+  
+      if (!response.ok) {
+        throw new Error('Unable to create project')
+      }
+  
+      const newProject = await response.json()
+  
+      setProjects((current) => [newProject, ...current])
+      setName('')
+      setDescription('')
+    } catch (error) {
+      console.error('Unable to create project:', error)
+    }
+  }
 
-    const response = await fetch('http://localhost:5050/api/projects', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ name, description }),
-    })
-
-    const newProject = await response.json()
-
-    setProjects((current) => [newProject, ...current])
-    setName('')
-    setDescription('')
+  if (loading) {
+    return <p>Loading projects...</p>
   }
 
   return (
@@ -73,6 +104,10 @@ function Projects() {
 
         <button type="submit">Create Project</button>
       </form>
+
+      {projects.length === 0 && (
+        <p>No projects yet. Create your first project.</p>
+      )}
 
       {projects.map((project) => (
         <Link to={`/projects/${project.id}`} key={project.id}>

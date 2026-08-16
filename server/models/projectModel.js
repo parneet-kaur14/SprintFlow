@@ -23,7 +23,19 @@ const createProject = async (name, description, ownerId) => {
   return result.rows[0]
 }
 
+const getProjectById = async (projectId, ownerId) => {
+    const result = await pool.query(
+      `SELECT *
+       FROM projects
+       WHERE id = $1 AND owner_id = $2`,
+      [projectId, ownerId]
+    )
+  
+    return result.rows[0]
+  }
+
 module.exports = {
   getProjectsByOwner,
   createProject,
+  getProjectById,
 }

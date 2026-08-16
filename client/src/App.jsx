@@ -3,9 +3,11 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
-import ProtectedRoute from './components/ProtectedRoute'
 import Projects from './pages/Projects'
 import ProjectBoard from './pages/ProjectBoard'
+
+import ProtectedRoute from './components/ProtectedRoute'
+import AppLayout from './layouts/AppLayout'
 
 function App() {
   return (
@@ -15,31 +17,16 @@ function App() {
         <Route path="/register" element={<Register />} />
 
         <Route
-          path="/dashboard"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <AppLayout />
             </ProtectedRoute>
           }
-        />
-
-        <Route
-        path="/projects"
-        element={
-            <ProtectedRoute>
-            <Projects />
-            </ProtectedRoute>
-        }
-        />
-
-        <Route
-        path="/projects/:projectId"
-        element={
-            <ProtectedRoute>
-            <ProjectBoard />
-            </ProtectedRoute>
-        }
-        />
+        >
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/projects/:projectId" element={<ProjectBoard />} />
+        </Route>
 
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
       </Routes>

@@ -1,0 +1,32 @@
+.dashboard-page {
+    width: 100%;
+  }
+  
+  .dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+  
+  .summary-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 22px;
+  }
+  
+  .summary-card p {
+    margin: 0;
+    color: #6b7280;
+  }
+  
+  .summary-card h2 {
+    margin: 10px 0 0;
+    font-size: 30px;
+  }
+
+  @media (max-width: 900px) {
+    .dashboard-cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }

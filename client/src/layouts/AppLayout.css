@@ -1,0 +1,174 @@
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+    background: #f8f9fc;
+  }
+  
+  .sidebar {
+    width: 240px;
+    min-height: 100vh;
+    background: white;
+    border-right: 1px solid #e5e7eb;
+    padding: 28px 20px;
+  }
+  
+  .logo {
+    margin: 0 0 40px;
+    font-size: 24px;
+  }
+  
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .sidebar-nav a {
+    text-decoration: none;
+    color: #374151;
+    padding: 12px 14px;
+    border-radius: 8px;
+  }
+  
+  .sidebar-nav a:hover {
+    background: #f1f3ff;
+    color: #4f46e5;
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 32px;
+  }
+  
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+  
+  .topbar h1 {
+    margin: 0;
+    font-size: 28px;
+  }
+  
+  .topbar p {
+    margin: 6px 0 0;
+    color: #6b7280;
+  }
+  
+  .topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  
+  .new-project-button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 10px;
+    background: #4f46e5;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .profile-wrapper {
+    position: relative;
+  }
+  
+  .profile-button {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border-radius: 50%;
+    border: none;
+    background: #e0e7ff;
+    color: #4f46e5;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  
+  .profile-menu {
+    position: absolute;
+    top: 52px;
+    right: 0;
+    width: 220px;
+  
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  
+    padding: 14px;
+    z-index: 100;
+  }
+  
+  .profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .profile-info strong {
+    color: #111827;
+  }
+  
+  .profile-info span {
+    font-size: 13px;
+    color: #6b7280;
+  }
+  
+  .logout-button {
+    width: 100%;
+    margin-top: 12px;
+    padding: 9px;
+  
+    border: none;
+    border-radius: 8px;
+    background: #f3f4f6;
+    color: #dc2626;
+    cursor: pointer;
+  }
+  
+  .logout-button:hover {
+    background: #fee2e2;
+  }
+  
+  @media (max-width: 900px) {
+    .app-layout {
+      flex-direction: column;
+    }
+  
+    .sidebar {
+      width: auto;
+      min-height: auto;
+      border-right: none;
+      border-bottom: 1px solid #e5e7eb;
+    }
+  
+    .sidebar-nav {
+      flex-direction: row;
+    }
+  
+    .main-content {
+      padding: 20px;
+    }
+  
+    .topbar {
+      align-items: flex-start;
+      gap: 16px;
+    }
+  
+    .topbar-actions {
+      flex-shrink: 0;
+    }
+  }
+
+  .sidebar-nav a.active {
+    background: #eef2ff;
+    color: #4f46e5;
+    font-weight: 600;
+  }
