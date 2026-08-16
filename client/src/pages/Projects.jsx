@@ -8,6 +8,11 @@ function Projects() {
   const [description, setDescription] = useState('')
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
+  const [editingProject, setEditingProject] = useState(null)
+  const [editName, setEditName] = useState('')
+  const [editDescription, setEditDescription] = useState('')
+  const [projectToDelete, setProjectToDelete] = useState(null)
+  const [projectError, setProjectError] = useState('')
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -44,6 +49,13 @@ function Projects() {
 
   const handleCreateProject = async (event) => {
     event.preventDefault()
+
+    setProjectError('')
+
+    if (name.trim().length < 3) {
+    setProjectError('Project name must be at least 3 characters.')
+    return
+    }
   
     const token = localStorage.getItem('token')
   
@@ -82,9 +94,79 @@ function Projects() {
     return <p>Loading projects...</p>
   }
 
+  const handleEditProject = async (event) => {
+    event.preventDefault()
+    setProjectError('')
+
+    if (editName.trim().length < 3) {
+    setProjectError('Project name must be at least 3 characters.')
+    return
+    }
+  
+    const token = localStorage.getItem('token')
+  
+    const response = await fetch(
+      `http://localhost:5050/api/projects/${editingProject.id}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name: editName,
+          description: editDescription,
+        }),
+      }
+    )
+  
+    const updatedProject = await response.json()
+  
+    setProjects((current) =>
+      current.map((project) =>
+        project.id === updatedProject.id ? updatedProject : project
+      )
+    )
+  
+    setEditingProject(null)
+  }
+
+  const handleDeleteProject = async () => {
+    const token = localStorage.getItem('token')
+  
+    try {
+      const response = await fetch(
+        `http://localhost:5050/api/projects/${projectToDelete.id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+  
+      if (!response.ok) {
+        throw new Error('Unable to delete project')
+      }
+  
+      setProjects((current) =>
+        current.filter((project) => project.id !== projectToDelete.id)
+      )
+  
+      setProjectToDelete(null)
+    } catch (error) {
+      console.error('Unable to delete project:', error)
+    }
+  }
+
+
   return (
     <div className="projects-page">
       <h1>Projects</h1>
+
+      {projectError && (
+        <p className="form-error">{projectError}</p>
+        )}
 
       <form className="project-form" onSubmit={handleCreateProject}>
         <input
@@ -109,15 +191,109 @@ function Projects() {
         <p>No projects yet. Create your first project.</p>
       )}
 
-      {projects.map((project) => (
-        <Link to={`/projects/${project.id}`} key={project.id}>
-          <div className="project-card">
+        {projects.map((project) => (
+        <div className="project-card" key={project.id}>
+            <Link to={`/projects/${project.id}`}>
             <h2>{project.name}</h2>
             <p>{project.description}</p>
-          </div>
-        </Link>
-      ))}
+            </Link>
+
+            <div className="project-actions">
+            <button
+                type="button"
+                onClick={() => {
+                setProjectError('')
+                setEditingProject(project)
+                setEditName(project.name)
+                setEditDescription(project.description || '')
+                }}
+            >
+                Edit
+            </button>
+
+            <button
+                type="button"
+                onClick={() => setProjectToDelete(project)}
+            >
+                Delete
+            </button>
+            </div>
+        </div>
+        ))}
+
+
+        {editingProject && (
+        <div className="modal-overlay">
+            <div className="project-modal">
+            <h2>Edit Project</h2>
+
+            {projectError && (
+            <p className="form-error">{projectError}</p>
+            )}
+
+            <form onSubmit={handleEditProject}>
+                <input
+                type="text"
+                value={editName}
+                onChange={(event) => setEditName(event.target.value)}
+                placeholder="Project name"
+                required
+                />
+
+                <input
+                type="text"
+                value={editDescription}
+                onChange={(event) => setEditDescription(event.target.value)}
+                placeholder="Description"
+                />
+
+                <div className="modal-actions">
+                <button
+                    type="button"
+                    onClick={() => setEditingProject(null)}
+                >
+                    Cancel
+                </button>
+
+                <button type="submit">
+                    Save Changes
+                </button>
+                </div>
+            </form>
+            </div>
+        </div>
+        )}
+
+        {projectToDelete && (
+        <div className="modal-overlay">
+            <div className="project-modal">
+            <h2>Delete Project</h2>
+
+            <p>
+                Are you sure you want to delete "{projectToDelete.name}"?
+            </p>
+
+            <div className="modal-actions">
+                <button
+                type="button"
+                onClick={() => setProjectToDelete(null)}
+                >
+                Cancel
+                </button>
+
+                <button
+                type="button"
+                onClick={handleDeleteProject}
+                >
+                Delete Project
+                </button>
+            </div>
+            </div>
+        </div>
+        )}
     </div>
+
+    
   )
 }
 

@@ -30,3 +30,32 @@
       grid-template-columns: repeat(2, 1fr);
     }
   }
+
+  .dashboard-section {
+    margin-top: 32px;
+  }
+  
+  .deadline-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 10px;
+  }
+  
+  .deadline-card h3 {
+    margin: 0 0 4px;
+  }
+  
+  .deadline-card p {
+    margin: 0;
+    color: #6b7280;
+  }
+  
+  .deadline-card span {
+    color: #4f46e5;
+    font-weight: 600;
+  }

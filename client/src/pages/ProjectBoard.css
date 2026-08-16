@@ -249,3 +249,90 @@
       max-width: 420px;
     }
   }
+
+  .task-description {
+    margin: 6px 0 10px;
+    color: #6b7280;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .task-search {
+    width: 280px;
+    padding: 10px 12px;
+    margin: 0 0 20px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+  }
+
+  .task-filter {
+    padding: 10px 12px;
+    margin-left: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+  }
+
+  .form-error {
+    margin: 0 0 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: #fef2f2;
+    color: #b91c1c;
+    font-size: 14px;
+  }
+
+  .project-progress {
+    margin-top: 16px;
+    max-width: 420px;
+  }
+  
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+  
+  .progress-bar {
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    background: #4f46e5;
+    border-radius: 999px;
+    transition: width 0.2s ease;
+  }
+
+  .type-badge {
+    display: inline-block;
+    margin: 0 8px 8px 0;
+    padding: 4px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  
+  .type-task {
+    background: #e0e7ff;
+    color: #4338ca;
+  }
+  
+  .type-bug {
+    background: #fee2e2;
+    color: #b91c1c;
+  }
+  
+  .type-feature {
+    background: #dcfce7;
+    color: #15803d;
+  }
+  
+  .type-improvement {
+    background: #fef3c7;
+    color: #b45309;
+  }

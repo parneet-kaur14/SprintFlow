@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 function Register() {
   const [name, setName] = useState('')
@@ -69,6 +70,10 @@ function Register() {
 
         <button type="submit">Register</button>
       </form>
+
+      <p>
+        Already have an account? <Link to="/login">Log in</Link>
+        </p>
 
       {message && <p>{message}</p>}
     </main>
