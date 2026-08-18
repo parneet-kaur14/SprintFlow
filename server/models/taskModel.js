@@ -133,6 +133,12 @@ const updateTask = async (
         ON tasks.project_id = projects.id
   
       WHERE projects.owner_id = $1
+        OR EXISTS (
+            SELECT 1
+            FROM project_members
+            WHERE project_members.project_id = projects.id
+            AND project_members.user_id = $1
+        )
       `,
       [ownerId]
     )
@@ -152,7 +158,16 @@ const updateTask = async (
       FROM tasks
       JOIN projects
         ON tasks.project_id = projects.id
-      WHERE projects.owner_id = $1
+      WHERE (
+        projects.owner_id = $1
+        OR EXISTS (
+            SELECT 1
+            FROM project_members
+            WHERE project_members.project_id = projects.id
+            AND project_members.user_id = $1
+        )
+        )
+
         AND tasks.due_date IS NOT NULL
         AND tasks.status != 'done'
         AND tasks.due_date >= CURRENT_DATE
@@ -165,6 +180,17 @@ const updateTask = async (
     return result.rows
   }
 
+  const getTaskById = async (taskId) => {
+    const result = await pool.query(
+      `SELECT *
+       FROM tasks
+       WHERE id = $1`,
+      [taskId]
+    )
+  
+    return result.rows[0]
+  }
+
   module.exports = {
     createTask,
     getTasksByProject,
@@ -172,4 +198,5 @@ const updateTask = async (
     deleteTask,
     getDashboardStats,
     getUpcomingDeadlines,
+    getTaskById,
   }

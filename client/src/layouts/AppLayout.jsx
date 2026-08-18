@@ -44,6 +44,13 @@ function AppLayout() {
             >
             Projects
             </NavLink>
+
+            <NavLink
+                to="/focus"
+                className={({ isActive }) => (isActive ? 'active' : '')}
+                >
+                Focus
+                </NavLink>
           </nav>
         </div>
       </aside>

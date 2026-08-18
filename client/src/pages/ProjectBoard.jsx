@@ -33,7 +33,28 @@ function ProjectBoard() {
   const [expectedResult, setExpectedResult] = useState('')
   const [actualResult, setActualResult] = useState('')
   const [environment, setEnvironment] = useState('')
+  const [members, setMembers] = useState([])
+  const [memberEmail, setMemberEmail] = useState('')
+  const [showMembers, setShowMembers] = useState(false)
+  const [memberError, setMemberError] = useState('')
+  const [activities, setActivities] = useState([])
+  const [showActivity, setShowActivity] = useState(false)
 
+  const loadActivities = () => {
+    const token = localStorage.getItem('token')
+  
+    fetch(`http://localhost:5050/api/activities/project/${projectId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => setActivities(data))
+      .catch((error) => {
+        console.error('Unable to load activities:', error)
+      })
+  }
+  
   useEffect(() => {
     const token = localStorage.getItem('token')
     fetch(`http://localhost:5050/api/projects/${projectId}`, {
@@ -69,6 +90,22 @@ function ProjectBoard() {
         setTasks([])
         setLoading(false)
       })
+
+      fetch(`http://localhost:5050/api/projects/${projectId}/members`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setMembers(data)
+        })
+        .catch((error) => {
+          console.error('Unable to load project members:', error)
+        })
+
+        loadActivities()
+
   }, [projectId])
 
   const handleCreateTask = async (event) => {
@@ -124,6 +161,7 @@ function ProjectBoard() {
       const newTask = await response.json()
   
       setTasks((current) => [newTask, ...current])
+      loadActivities()
         setTitle('')
         setDescription('')
         setPriority('medium')
@@ -150,12 +188,17 @@ function ProjectBoard() {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          title: task.title,
-          description: task.description,
-          status: newStatus,
-          priority: task.priority,
-          due_date: task.due_date,
-        }),
+            title: task.title,
+            description: task.description,
+            status: newStatus,
+            priority: task.priority,
+            due_date: task.due_date,
+            type: task.type || 'task',
+            steps_to_reproduce: task.steps_to_reproduce || null,
+            expected_result: task.expected_result || null,
+            actual_result: task.actual_result || null,
+            environment: task.environment || null,
+          }),
       })
   
       if (response.status === 401) {
@@ -172,10 +215,12 @@ function ProjectBoard() {
       const updatedTask = await response.json()
   
       setTasks((current) =>
+        
         current.map((item) =>
           item.id === updatedTask.id ? updatedTask : item
         )
       )
+      loadActivities()
     } catch (error) {
       console.error('Unable to update task:', error)
     }
@@ -206,6 +251,7 @@ function ProjectBoard() {
       setTasks((current) =>
         current.filter((task) => task.id !== taskId)
       )
+      loadActivities()
     } catch (error) {
       console.error('Unable to delete task:', error)
     }
@@ -267,12 +313,90 @@ function ProjectBoard() {
           task.id === updatedTask.id ? updatedTask : task
         )
       )
+      loadActivities()
   
       setEditingTask(null)
     } catch (error) {
       console.error('Unable to update task:', error)
     }
   }
+
+  const handleAddMember = async (event) => {
+    event.preventDefault()
+  
+    setMemberError('')
+  
+    if (!memberEmail.trim()) {
+      setMemberError('Please enter an email.')
+      return
+    }
+  
+    const token = localStorage.getItem('token')
+  
+    try {
+      const response = await fetch(
+        `http://localhost:5050/api/projects/${projectId}/members`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            email: memberEmail,
+          }),
+        }
+      )
+  
+      const data = await response.json()
+  
+      if (!response.ok) {
+        setMemberError(data.message || 'Unable to add member')
+        return
+      }
+  
+      setMembers((current) => [...current, data])
+      loadActivities()
+      setMemberEmail('')
+    } catch (error) {
+      setMemberError('Unable to add member')
+    }
+  }
+
+  const handleRemoveMember = async (userId) => {
+    const token = localStorage.getItem('token')
+  
+    try {
+      const response = await fetch(
+        `http://localhost:5050/api/projects/${projectId}/members/${userId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+  
+      if (!response.ok) {
+        throw new Error('Unable to remove member')
+      }
+  
+      setMembers((current) =>
+        current.filter((member) => member.id !== userId)
+      )
+      loadActivities()
+    } catch (error) {
+      setMemberError('Unable to remove member')
+    }
+  }
+
+  const currentUser = JSON.parse(localStorage.getItem('user'))
+
+    const isOwner = members.some(
+    (member) =>
+        member.id === currentUser?.id &&
+        member.role === 'owner'
+    )
 
   if (loading) {
     return <p>Loading tasks...</p>
@@ -315,6 +439,23 @@ function ProjectBoard() {
           }}
         >
         + Add Task
+        </button>
+
+        <button
+        className="members-button"
+        onClick={() => {
+            setMemberError('')
+            setShowMembers(true)
+        }}
+        >
+        Members ({members.length})
+        </button>
+
+        <button
+        className="members-button"
+        onClick={() => setShowActivity(true)}
+        >
+        Activity
         </button>
 
         <input
@@ -439,6 +580,107 @@ function ProjectBoard() {
                 </button>
                 </div>
             </form>
+            </div>
+        </div>
+        )}
+
+        {showMembers && (
+        <div className="modal-overlay">
+            <div className="task-modal">
+            <h2>Project Members</h2>
+
+            {memberError && (
+                <p className="form-error">{memberError}</p>
+            )}
+
+            {isOwner && (
+            <form onSubmit={handleAddMember}>
+                <input
+                type="email"
+                placeholder="Add member by email"
+                value={memberEmail}
+                onChange={(event) => setMemberEmail(event.target.value)}
+                />
+
+                <button type="submit">
+                Add Member
+                </button>
+            </form>
+            )}
+
+            <div className="members-list">
+                {members.length === 0 ? (
+                <p>No members yet.</p>
+                ) : (
+                members.map((member) => (
+                    <div key={member.id} className="member-item">
+                    <div>
+                        <strong>{member.name}</strong>
+                        <p>{member.email}</p>
+                    </div>
+
+                    <span>{member.role}</span>
+
+                    {isOwner && member.role !== 'owner' && (
+                    <button
+                        type="button"
+                        onClick={() => handleRemoveMember(member.id)}
+                    >
+                        Remove
+                    </button>
+                    )}
+                    </div>
+                ))
+                )}
+            </div>
+
+            <button
+                type="button"
+                onClick={() => setShowMembers(false)}
+            >
+                Close
+            </button>
+            </div>
+        </div>
+        )}
+
+        {showActivity && (
+        <div className="modal-overlay">
+            <div className="task-modal">
+            <h2>Project Activity</h2>
+
+            <div className="activity-list">
+                {activities.length === 0 ? (
+                <p>No activity yet.</p>
+                ) : (
+                activities.map((activity) => (
+                    <div className="activity-item" key={activity.id}>
+                    <div>
+                    <div className="activity-heading">
+                    <strong>{activity.user_name}</strong>
+
+                    <span className="activity-type">
+                        {activity.action.replaceAll('_', ' ')}
+                    </span>
+                    </div>
+
+<p>{activity.details}</p>
+                    </div>
+
+                    <span>
+                        {new Date(activity.created_at).toLocaleString()}
+                    </span>
+                    </div>
+                ))
+                )}
+            </div>
+
+            <button
+                type="button"
+                onClick={() => setShowActivity(false)}
+            >
+                Close
+            </button>
             </div>
         </div>
         )}
@@ -671,6 +913,7 @@ function ProjectBoard() {
                     setEditTaskDescription(task.description || '')
                     setEditTaskPriority(task.priority)
                     setEditTaskDueDate(task.due_date?.slice(0, 10) || '')
+                    setEditTaskType(task.type || 'task')
                     setEditStepsToReproduce(task.steps_to_reproduce || '')
                     setEditExpectedResult(task.expected_result || '')
                     setEditActualResult(task.actual_result || '')
@@ -742,6 +985,7 @@ function ProjectBoard() {
                     setEditTaskDescription(task.description || '')
                     setEditTaskPriority(task.priority)
                     setEditTaskDueDate(task.due_date?.slice(0, 10) || '')
+                    setEditTaskType(task.type || 'task')
                     setEditStepsToReproduce(task.steps_to_reproduce || '')
                     setEditExpectedResult(task.expected_result || '')
                     setEditActualResult(task.actual_result || '')

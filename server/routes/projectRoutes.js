@@ -7,6 +7,9 @@ const {
     getProject,
     editProject,
     removeProject,
+    addMember,
+    listMembers,
+    removeMember,
   } = require('../controllers/projectController')
 
 const router = express.Router()
@@ -14,8 +17,13 @@ const router = express.Router()
 router.use(authMiddleware)
 
 router.get('/', getProjects)
-router.get('/:projectId', getProject)
 router.post('/', addProject)
+
+router.get('/:projectId/members', listMembers)
+router.post('/:projectId/members', addMember)
+router.delete('/:projectId/members/:userId', removeMember)
+
+router.get('/:projectId', getProject)
 router.put('/:projectId', editProject)
 router.delete('/:projectId', removeProject)
 

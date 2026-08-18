@@ -1,0 +1,209 @@
+.focus-page {
+    min-height: calc(100vh - 140px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0 40px;
+  }
+  
+  .focus-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  
+  .focus-label {
+    margin: 0 0 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    color: #6366f1;
+  }
+  
+  .focus-header h1 {
+    margin: 0;
+    font-size: 34px;
+  }
+  
+  .focus-header p {
+    margin: 8px 0 0;
+    color: #6b7280;
+  }
+  
+  .focus-card {
+    width: 100%;
+    max-width: 620px;
+    padding: 36px;
+    border-radius: 24px;
+    background: linear-gradient(145deg, #ffffff, #f4f5ff);
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 20px 50px rgba(79, 70, 229, 0.12);
+  }
+  
+  .focus-mode {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #6366f1;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .timer-display {
+    text-align: center;
+    font-size: 88px;
+    font-weight: 700;
+    letter-spacing: -4px;
+    margin: 18px 0 28px;
+    color: #111827;
+  }
+  
+  .duration-settings {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  
+  .duration-settings div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .duration-settings label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+  }
+  
+  .duration-settings select {
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    background: white;
+    font-size: 14px;
+  }
+  
+  .focus-actions {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 12px;
+  }
+  
+  .focus-actions button {
+    padding: 13px 18px;
+    border-radius: 12px;
+    border: 1px solid #d1d5db;
+    background: white;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  
+  .focus-actions button:first-child {
+    background: #4f46e5;
+    color: white;
+    border-color: #4f46e5;
+  }
+  
+  .focus-actions button:hover {
+    transform: translateY(-1px);
+  }
+  
+  @media (max-width: 700px) {
+    .focus-card {
+      padding: 24px;
+    }
+  
+    .timer-display {
+      font-size: 60px;
+    }
+  
+    .duration-settings {
+      grid-template-columns: 1fr;
+    }
+  
+    .focus-actions {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .focus-task {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+  
+  .focus-task label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+  }
+  
+  .focus-task label span {
+    margin-left: 6px;
+    font-weight: 400;
+    color: #9ca3af;
+  }
+  
+  .focus-task select {
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    background: white;
+    font-size: 14px;
+  }
+
+  .focus-today {
+    margin-top: 30px;
+    padding-top: 24px;
+    border-top: 1px solid #e5e7eb;
+  }
+  
+  .focus-today h2 {
+    margin: 0 0 14px;
+    font-size: 16px;
+  }
+  
+  .focus-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  
+  .focus-stat-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 18px;
+  }
+  
+  .focus-stat-card span {
+    display: block;
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 8px;
+  }
+  
+  .focus-stat-card strong {
+    font-size: 24px;
+    color: #111827;
+  }
+
+  .selected-focus-task {
+    margin-bottom: 24px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: #eef2ff;
+  }
+  
+  .selected-focus-task span {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: #6366f1;
+  }
+  
+  .selected-focus-task strong {
+    color: #1f2937;
+  }

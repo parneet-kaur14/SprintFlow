@@ -196,28 +196,33 @@ function Projects() {
             <Link to={`/projects/${project.id}`}>
             <h2>{project.name}</h2>
             <p>{project.description}</p>
+            {project.user_role === 'member' && (
+            <span className="shared-badge">Shared with you</span>
+            )}
             </Link>
 
+            {project.user_role === 'owner' && (
             <div className="project-actions">
-            <button
+                <button
                 type="button"
                 onClick={() => {
-                setProjectError('')
-                setEditingProject(project)
-                setEditName(project.name)
-                setEditDescription(project.description || '')
+                    setProjectError('')
+                    setEditingProject(project)
+                    setEditName(project.name)
+                    setEditDescription(project.description || '')
                 }}
-            >
+                >
                 Edit
-            </button>
+                </button>
 
-            <button
+                <button
                 type="button"
                 onClick={() => setProjectToDelete(project)}
-            >
+                >
                 Delete
-            </button>
+                </button>
             </div>
+            )}
         </div>
         ))}
 

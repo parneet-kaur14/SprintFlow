@@ -5,6 +5,7 @@ import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import Projects from './pages/Projects'
 import ProjectBoard from './pages/ProjectBoard'
+import Focus from './pages/Focus'
 
 import ProtectedRoute from './components/ProtectedRoute'
 import AppLayout from './layouts/AppLayout'
@@ -26,6 +27,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/projects/:projectId" element={<ProjectBoard />} />
+          <Route path="/focus" element={<Focus />} />
         </Route>
 
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
