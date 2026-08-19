@@ -2,6 +2,64 @@ import { useEffect, useState } from 'react'
 import './ProjectBoard.css'
 import { useNavigate, useParams } from 'react-router-dom'
 
+import {
+    DndContext,
+    useDraggable,
+    useDroppable,
+  } from '@dnd-kit/core'
+
+
+  function DraggableTask({ task, children }) {
+    const {
+      attributes,
+      listeners,
+      setNodeRef,
+      transform,
+      isDragging,
+    } = useDraggable({
+      id: task.id,
+      data: {
+        task,
+      },
+    })
+  
+    const style = transform
+      ? {
+          transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+          opacity: isDragging ? 0.5 : 1,
+        }
+      : undefined
+  
+      return (
+        <div
+          ref={setNodeRef}
+          style={style}
+          {...attributes}
+        >
+          <div className="drag-handle" {...listeners}>
+            <span className="drag-icon">⠿</span>
+            <span>Drag</span>
+          </div>
+      
+          {children}
+        </div>
+      )
+  }
+
+  function DroppableColumn({ id, children }) {
+    const { setNodeRef, isOver } = useDroppable({
+      id,
+    })
+  
+    return (
+      <div
+        ref={setNodeRef}
+        className={`kanban-column ${isOver ? 'column-drag-over' : ''}`}
+      >
+        {children}
+      </div>
+    )
+  }
 
 function ProjectBoard() {
   const { projectId } = useParams()
@@ -224,6 +282,20 @@ function ProjectBoard() {
     } catch (error) {
       console.error('Unable to update task:', error)
     }
+  }
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event
+  
+    if (!over) return
+  
+    const task = active.data.current?.task
+    const newStatus = over.id
+  
+    if (!task) return
+    if (task.status === newStatus) return
+  
+    handleStatusChange(task, newStatus)
   }
 
   const handleDeleteTask = async (taskId) => {
@@ -785,8 +857,9 @@ function ProjectBoard() {
         <p>No tasks yet. Add your first task.</p>
       )}
 
+    <DndContext onDragEnd={handleDragEnd}>
       <div className="kanban-board">
-        <div className="kanban-column">
+      <DroppableColumn id="todo">
         <div className="column-header">
         <h2>TODO</h2>
         <span>
@@ -803,7 +876,8 @@ function ProjectBoard() {
                   (statusFilter === 'all' || statusFilter === 'todo')
               )
             .map((task) => (
-              <div className="task-card" key={task.id}>
+                <DraggableTask task={task} key={task.id}>
+                    <div className="task-card">
                 <h3>{task.title}</h3>
                 <p className={`type-badge type-${task.type}`}>
                 {task.type}
@@ -855,10 +929,11 @@ function ProjectBoard() {
                   Delete
                 </button>
               </div>
+              </DraggableTask>
             ))}
-        </div>
+        </DroppableColumn>
 
-        <div className="kanban-column">
+        <DroppableColumn id="in-progress">
         <div className="column-header">
         <h2>IN PROGRESS</h2>
         <span>
@@ -875,7 +950,8 @@ function ProjectBoard() {
                   (statusFilter === 'all' || statusFilter === 'in-progress')
               )
             .map((task) => (
-              <div className="task-card" key={task.id}>
+                <DraggableTask task={task} key={task.id}>
+                <div className="task-card">
                 <h3>{task.title}</h3>
                 <p className={`type-badge type-${task.type}`}>
                 {task.type}
@@ -927,10 +1003,11 @@ function ProjectBoard() {
                   Delete
                 </button>
               </div>
+              </DraggableTask>
             ))}
-        </div>
+        </DroppableColumn>
 
-        <div className="kanban-column">
+        <DroppableColumn id="done">
         <div className="column-header">
         <h2>DONE</h2>
         <span>
@@ -947,7 +1024,8 @@ function ProjectBoard() {
                   (statusFilter === 'all' || statusFilter === 'done')
               )
             .map((task) => (
-              <div className="task-card" key={task.id}>
+                <DraggableTask task={task} key={task.id}>
+                <div className="task-card">
                 <h3>{task.title}</h3>
                 <p className={`type-badge type-${task.type}`}>
                 {task.type}
@@ -999,9 +1077,11 @@ function ProjectBoard() {
                   Delete
                 </button>
               </div>
+              </DraggableTask>
             ))}
-        </div>
+        </DroppableColumn>
       </div>
+      </DndContext>
     </div>
   )
 }

@@ -49,6 +49,8 @@
     border-radius: 12px;
     padding: 16px;
     margin-bottom: 12px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+
   }
   
   .task-card h3 {
@@ -374,4 +376,39 @@
     font-weight: 700;
     text-transform: uppercase;
     color: #4f46e5;
+  }
+
+  .column-drag-over {
+    border: 2px dashed #6366f1;
+    background: #eef2ff;
+    transform: scale(1.01);
+    transition: all 0.15s ease;
+  }
+
+  
+  .drag-handle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: grab;
+    user-select: none;
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+    margin-bottom: 8px;
+    padding: 4px 8px;
+    border-radius: 8px;
+  }
+  
+  .drag-handle:hover {
+    background: #f3f4f6;
+    color: #4f46e5;
+  }
+  
+  .drag-handle:active {
+    cursor: grabbing;
+  }
+  
+  .drag-icon {
+    font-size: 16px;
   }
