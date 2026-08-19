@@ -6,6 +6,8 @@ const {
     getDashboardStats,
     getUpcomingDeadlines,
     getTaskById,
+    getPriorityDistribution,
+    getProjectProgress,
   } = require('../models/taskModel')
   
   const { getProjectById } = require('../models/projectModel')
@@ -276,6 +278,44 @@ const {
       })
     }
   }
+
+  const getPriorityStats = async (req, res) => {
+    try {
+      const distribution = await getPriorityDistribution(
+        req.user.userId
+      )
+  
+      res.json(distribution)
+    } catch (error) {
+      console.error(
+        'Unable to retrieve priority distribution:',
+        error.message
+      )
+  
+      res.status(500).json({
+        message: 'Unable to retrieve priority distribution',
+      })
+    }
+  }
+
+  const getProjectProgressStats = async (req, res) => {
+    try {
+      const progress = await getProjectProgress(
+        req.user.userId
+      )
+  
+      res.json(progress)
+    } catch (error) {
+      console.error(
+        'Unable to retrieve project progress:',
+        error.message
+      )
+  
+      res.status(500).json({
+        message: 'Unable to retrieve project progress',
+      })
+    }
+  }
   
   
   module.exports = {
@@ -285,4 +325,6 @@ const {
     removeTask,
     getStats,
     getDeadlines,
+    getPriorityStats,
+    getProjectProgressStats,
   }

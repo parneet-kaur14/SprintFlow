@@ -31,27 +31,34 @@ function AppLayout() {
           <h2 className="logo">SprintFlow</h2>
 
           <nav className="sidebar-nav">
-          <NavLink
-            to="/dashboard"
-            className={({ isActive }) => (isActive ? 'active' : '')}
+            <NavLink
+                to="/dashboard"
+                className={({ isActive }) => (isActive ? 'active' : '')}
             >
-            Dashboard
+                Dashboard
             </NavLink>
 
             <NavLink
-            to="/projects"
-            className={({ isActive }) => (isActive ? 'active' : '')}
+                to="/projects"
+                className={({ isActive }) => (isActive ? 'active' : '')}
             >
-            Projects
+                Projects
             </NavLink>
 
             <NavLink
                 to="/focus"
                 className={({ isActive }) => (isActive ? 'active' : '')}
-                >
+            >
                 Focus
-                </NavLink>
-          </nav>
+            </NavLink>
+
+            <NavLink
+                to="/analytics"
+                className={({ isActive }) => (isActive ? 'active' : '')}
+            >
+                Analytics
+            </NavLink>
+            </nav>
         </div>
       </aside>
 

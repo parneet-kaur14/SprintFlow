@@ -40,7 +40,45 @@ const getProjectActivities = async (projectId) => {
   return result.rows
 }
 
+const getWeeklyProductivity = async (userId) => {
+    const result = await pool.query(
+      `
+      SELECT
+        TO_CHAR(activities.created_at, 'Dy') AS day,
+        DATE(activities.created_at) AS activity_date,
+        COUNT(*) AS completed_tasks
+  
+      FROM activities
+  
+      JOIN projects
+        ON activities.project_id = projects.id
+  
+      WHERE activities.action = 'task_completed'
+        AND activities.created_at >= DATE_TRUNC('week', CURRENT_DATE)
+        AND (
+          projects.owner_id = $1
+          OR EXISTS (
+            SELECT 1
+            FROM project_members
+            WHERE project_members.project_id = projects.id
+              AND project_members.user_id = $1
+          )
+        )
+  
+      GROUP BY
+        DATE(activities.created_at),
+        TO_CHAR(activities.created_at, 'Dy')
+  
+      ORDER BY DATE(activities.created_at)
+      `,
+      [userId]
+    )
+  
+    return result.rows
+  }
+
 module.exports = {
   createActivity,
   getProjectActivities,
+  getWeeklyProductivity,
 }

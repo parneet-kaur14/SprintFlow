@@ -1,5 +1,6 @@
 const {
     getProjectActivities,
+    getWeeklyProductivity,
   } = require('../models/activityModel')
   
   const { getProjectById } = require('../models/projectModel')
@@ -30,7 +31,27 @@ const {
       })
     }
   }
+
+  const getWeeklyStats = async (req, res) => {
+    try {
+      const productivity = await getWeeklyProductivity(
+        req.user.userId
+      )
+  
+      res.json(productivity)
+    } catch (error) {
+      console.error(
+        'Unable to retrieve weekly productivity:',
+        error.message
+      )
+  
+      res.status(500).json({
+        message: 'Unable to retrieve weekly productivity',
+      })
+    }
+  }
   
   module.exports = {
     getActivities,
+    getWeeklyStats,
   }

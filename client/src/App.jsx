@@ -9,6 +9,7 @@ import Focus from './pages/Focus'
 
 import ProtectedRoute from './components/ProtectedRoute'
 import AppLayout from './layouts/AppLayout'
+import Analytics from './pages/Analytics'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/projects/:projectId" element={<ProjectBoard />} />
           <Route path="/focus" element={<Focus />} />
+          <Route path="/analytics" element={<Analytics />} />
         </Route>
 
         <Route path="/" element={<Navigate to="/dashboard" replace />} />

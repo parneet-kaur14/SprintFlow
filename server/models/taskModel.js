@@ -191,6 +191,70 @@ const updateTask = async (
     return result.rows[0]
   }
 
+  const getPriorityDistribution = async (userId) => {
+    const result = await pool.query(
+      `
+      SELECT
+        tasks.priority,
+        COUNT(tasks.id) AS count
+      FROM tasks
+      JOIN projects
+        ON tasks.project_id = projects.id
+      WHERE (
+        projects.owner_id = $1
+        OR EXISTS (
+          SELECT 1
+          FROM project_members
+          WHERE project_members.project_id = projects.id
+            AND project_members.user_id = $1
+        )
+      )
+      GROUP BY tasks.priority
+      `,
+      [userId]
+    )
+  
+    return result.rows
+  }
+
+  const getProjectProgress = async (userId) => {
+    const result = await pool.query(
+      `
+      SELECT
+        projects.id,
+        projects.name,
+  
+        COUNT(tasks.id) AS total_tasks,
+  
+        COUNT(tasks.id) FILTER (
+          WHERE tasks.status = 'done'
+        ) AS completed_tasks
+  
+      FROM projects
+  
+      LEFT JOIN tasks
+        ON tasks.project_id = projects.id
+  
+      WHERE (
+        projects.owner_id = $1
+        OR EXISTS (
+          SELECT 1
+          FROM project_members
+          WHERE project_members.project_id = projects.id
+            AND project_members.user_id = $1
+        )
+      )
+  
+      GROUP BY projects.id, projects.name
+      ORDER BY projects.name
+      `,
+      [userId]
+    )
+  
+    return result.rows
+  }
+
+
   module.exports = {
     createTask,
     getTasksByProject,
@@ -199,4 +263,6 @@ const updateTask = async (
     getDashboardStats,
     getUpcomingDeadlines,
     getTaskById,
+    getPriorityDistribution,
+    getProjectProgress,
   }

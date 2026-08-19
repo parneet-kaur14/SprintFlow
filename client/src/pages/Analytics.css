@@ -1,0 +1,204 @@
+.analytics-page {
+    padding: 10px 0 40px;
+  }
+  
+  .analytics-header {
+    margin-bottom: 28px;
+  }
+  
+  .analytics-label {
+    margin: 0 0 6px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    color: #6366f1;
+  }
+  
+  .analytics-header h1 {
+    margin: 0;
+    font-size: 32px;
+  }
+  
+  .analytics-header p {
+    margin-top: 8px;
+    color: #6b7280;
+  }
+  
+  .analytics-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+  
+  .analytics-card {
+    padding: 22px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+  }
+  
+  .analytics-card span {
+    display: block;
+    color: #6b7280;
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+  
+  .analytics-card strong {
+    font-size: 28px;
+    color: #111827;
+  }
+  
+  .analytics-progress {
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 999px;
+    margin-top: 14px;
+    overflow: hidden;
+  }
+  
+  .analytics-progress-fill {
+    height: 100%;
+    background: #4f46e5;
+    border-radius: 999px;
+  }
+  
+  @media (max-width: 900px) {
+    .analytics-summary {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .analytics-summary {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .analytics-section {
+    margin-top: 28px;
+    padding: 22px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+  }
+  
+  .analytics-section h2 {
+    margin-top: 0;
+  }
+  
+  .priority-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .priority-row {
+    display: grid;
+    grid-template-columns: 90px 1fr 40px;
+    align-items: center;
+    gap: 14px;
+  }
+  
+  .priority-label {
+    font-weight: 600;
+    color: #374151;
+  }
+  
+  .priority-bar-track {
+    height: 10px;
+    background: #e5e7eb;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  
+  .priority-bar {
+    height: 100%;
+    border-radius: 999px;
+  }
+  
+  .priority-bar-high {
+    background: #ef4444;
+  }
+  
+  .priority-bar-medium {
+    background: #f59e0b;
+  }
+  
+  .priority-bar-low {
+    background: #10b981;
+  }
+
+
+  .project-progress-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .project-progress-item {
+    padding: 4px 0;
+  }
+  
+  .project-progress-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  
+  .project-progress-header span {
+    font-weight: 700;
+    color: #4f46e5;
+  }
+  
+  .project-progress-track {
+    height: 10px;
+    background: #e5e7eb;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  
+  .project-progress-fill {
+    height: 100%;
+    background: #4f46e5;
+    border-radius: 999px;
+  }
+  
+  .project-progress-item p {
+    margin: 7px 0 0;
+    font-size: 13px;
+    color: #6b7280;
+  }
+
+
+  .weekly-productivity {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  
+  .weekly-row {
+    display: grid;
+    grid-template-columns: 45px 1fr 35px;
+    align-items: center;
+    gap: 14px;
+  }
+  
+  .weekly-bar-track {
+    height: 10px;
+    background: #e5e7eb;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  
+  .weekly-bar {
+    height: 100%;
+    background: #4f46e5;
+    border-radius: 999px;
+  }
+
+  .analytics-section-description {
+    margin: -6px 0 20px;
+    font-size: 14px;
+    color: #6b7280;
+  }
