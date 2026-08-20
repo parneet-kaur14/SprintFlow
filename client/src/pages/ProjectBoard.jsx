@@ -503,62 +503,68 @@ function ProjectBoard() {
         </div>
       </div>
 
-      <button
-        className="open-task-modal"
-        onClick={() => {
-            setFormError('')
-            setShowTaskForm(true)
-          }}
-        >
-        + Add Task
-        </button>
+      <div className="board-toolbar">
+            <div className="board-toolbar-actions">
+                <button
+                className="open-task-modal"
+                onClick={() => {
+                    setFormError('')
+                    setShowTaskForm(true)
+                }}
+                >
+                + Add Task
+                </button>
 
-        <button
-        className="members-button"
-        onClick={() => {
-            setMemberError('')
-            setShowMembers(true)
-        }}
-        >
-        Members ({members.length})
-        </button>
+                <button
+                className="members-button"
+                onClick={() => {
+                    setMemberError('')
+                    setShowMembers(true)
+                }}
+                >
+                Members ({members.length})
+                </button>
 
-        <button
-        className="members-button"
-        onClick={() => setShowActivity(true)}
-        >
-        Activity
-        </button>
+                <button
+                className="members-button"
+                onClick={() => setShowActivity(true)}
+                >
+                Activity
+                </button>
+            </div>
 
-        <input
-        className="task-search"
-        type="text"
-        placeholder="Search tasks..."
-        value={searchTerm}
-        onChange={(event) => setSearchTerm(event.target.value)}
-        />
+            <div className="board-toolbar-filters">
+                <input
+                className="task-search"
+                type="text"
+                placeholder="Search tasks..."
+                value={searchTerm}
+                onChange={(event) => setSearchTerm(event.target.value)}
+                />
 
-        <select
-        className="task-filter"
-        value={priorityFilter}
-        onChange={(event) => setPriorityFilter(event.target.value)}
-        >
-        <option value="all">All Priorities</option>
-        <option value="low">Low</option>
-        <option value="medium">Medium</option>
-        <option value="high">High</option>
-        </select>
+                <select
+                className="task-filter"
+                value={priorityFilter}
+                onChange={(event) => setPriorityFilter(event.target.value)}
+                >
+                <option value="all">All Priorities</option>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+                </select>
 
-        <select
-        className="task-filter"
-        value={statusFilter}
-        onChange={(event) => setStatusFilter(event.target.value)}
-        >
-        <option value="all">All Statuses</option>
-        <option value="todo">Todo</option>
-        <option value="in-progress">In Progress</option>
-        <option value="done">Done</option>
-        </select>
+                <select
+                className="task-filter"
+                value={statusFilter}
+                onChange={(event) => setStatusFilter(event.target.value)}
+                >
+                <option value="all">All Statuses</option>
+                <option value="todo">Todo</option>
+                <option value="in-progress">In Progress</option>
+                <option value="done">Done</option>
+                </select>
+            </div>
+            </div>
 
         {showTaskForm && (
         <div className="modal-overlay">

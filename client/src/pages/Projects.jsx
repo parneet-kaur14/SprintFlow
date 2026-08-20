@@ -123,10 +123,15 @@ function Projects() {
     const updatedProject = await response.json()
   
     setProjects((current) =>
-      current.map((project) =>
-        project.id === updatedProject.id ? updatedProject : project
+        current.map((project) =>
+          project.id === updatedProject.id
+            ? {
+                ...project,
+                ...updatedProject,
+              }
+            : project
+        )
       )
-    )
   
     setEditingProject(null)
   }
@@ -168,38 +173,75 @@ function Projects() {
         <p className="form-error">{projectError}</p>
         )}
 
-      <form className="project-form" onSubmit={handleCreateProject}>
-        <input
-          type="text"
-          placeholder="Project name"
-          value={name}
-          onChange={(event) => setName(event.target.value)}
-          required
-        />
+            <div className="create-project-card">
+            <div className="create-project-heading">
+                <div>
+                <h2>Create a project</h2>
+                <p>Start a new workspace for your tasks and team.</p>
+                </div>
+            </div>
 
-        <input
-          type="text"
-          placeholder="Description"
-          value={description}
-          onChange={(event) => setDescription(event.target.value)}
-        />
+            <form className="project-form" onSubmit={handleCreateProject}>
+                <input
+                type="text"
+                placeholder="Project name"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                required
+                />
 
-        <button type="submit">Create Project</button>
-      </form>
+                <input
+                type="text"
+                placeholder="Description"
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
+                />
 
-      {projects.length === 0 && (
-        <p>No projects yet. Create your first project.</p>
-      )}
+                <button type="submit">Create Project</button>
+            </form>
+            </div>
 
-        {projects.map((project) => (
-        <div className="project-card" key={project.id}>
-            <Link to={`/projects/${project.id}`}>
-            <h2>{project.name}</h2>
-            <p>{project.description}</p>
-            {project.user_role === 'member' && (
-            <span className="shared-badge">Shared with you</span>
+            <div className="projects-list-header">
+            <div>
+                <h2>Your Projects</h2>
+                <p>Open a project to manage its tasks and progress.</p>
+            </div>
+
+            {projects.length > 0 && (
+                <span>
+                {projects.length} {projects.length === 1 ? 'project' : 'projects'}
+                </span>
             )}
-            </Link>
+            </div>
+
+            {projects.length === 0 ? (
+            <div className="projects-empty-state">
+                <h3>No projects yet</h3>
+                <p>Create your first project above to get started.</p>
+            </div>
+            ) : (
+            projects.map((project) => (
+        <div className="project-card" key={project.id}>
+            <div className="project-card-main">
+                <Link
+                    to={`/projects/${project.id}`}
+                    className="project-card-content"
+                >
+                    <h2>{project.name}</h2>
+                    <p>{project.description}</p>
+
+                    {project.user_role === 'member' && (
+                    <span className="shared-badge">Shared with you</span>
+                    )}
+                </Link>
+
+                <Link
+                    to={`/projects/${project.id}`}
+                    className="open-project-link"
+                >
+                    Open Board →
+                </Link>
+                </div>
 
             {project.user_role === 'owner' && (
             <div className="project-actions">
@@ -224,7 +266,8 @@ function Projects() {
             </div>
             )}
         </div>
-        ))}
+        ))
+    )}
 
 
         {editingProject && (

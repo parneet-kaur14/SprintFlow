@@ -6,10 +6,15 @@
   
   .sidebar {
     width: 240px;
-    min-height: 100vh;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+  
     background: white;
     border-right: 1px solid #e5e7eb;
     padding: 28px 20px;
+  
+    overflow-y: auto;
   }
   
   .logo {

@@ -1,0 +1,26 @@
+{
+  "name": "sprintflow",
+  "version": "1.0.0",
+  "description": "SprintFlow is a full-stack developer workspace for managing software projects, issues, bugs, tasks, and development progress.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/parneet-kaur14/SprintFlow.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/parneet-kaur14/SprintFlow/issues"
+  },
+  "homepage": "https://github.com/parneet-kaur14/SprintFlow#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.2.0"
+  }
+}
