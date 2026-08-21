@@ -160,7 +160,7 @@ Overview of projects, tasks, deadlines, and recent activity.
 
 Kanban-style project workspace for managing tasks across Todo, In Progress, and Done.
 
-![SprintFlow Project Board](screenshots/project-board.png)
+![SprintFlow Project Board](screenshots/projectboard.png)
 
 ### Analytics
 
