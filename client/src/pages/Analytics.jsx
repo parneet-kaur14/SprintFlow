@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import './Analytics.css'
+import { API_URL } from '../api'
 
 function Analytics() {
   const [stats, setStats] = useState({
@@ -16,7 +17,7 @@ function Analytics() {
   useEffect(() => {
     const token = localStorage.getItem('token')
 
-    fetch('http://localhost:5050/api/tasks/stats/dashboard', {
+    fetch(`${API_URL}/api/tasks/stats/dashboard`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -27,7 +28,7 @@ function Analytics() {
         console.error('Unable to load analytics:', error)
       )
 
-      fetch('http://localhost:5050/api/tasks/stats/priority', {
+      fetch(`${API_URL}/api/tasks/stats/priority`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -38,7 +39,7 @@ function Analytics() {
           console.error('Unable to load priority analytics:', error)
         )
 
-        fetch('http://localhost:5050/api/tasks/stats/projects', {
+        fetch(`${API_URL}/api/tasks/stats/projects`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -49,7 +50,7 @@ function Analytics() {
               console.error('Unable to load project progress:', error)
             )
 
-            fetch('http://localhost:5050/api/activities/stats/weekly', {
+            fetch(`${API_URL}/api/activities/stats/weekly`, {
                 headers: {
                   Authorization: `Bearer ${token}`,
                 },

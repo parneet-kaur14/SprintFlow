@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { API_URL } from '../api'
 
 function Register() {
   const [name, setName] = useState('')
@@ -11,7 +12,7 @@ function Register() {
     event.preventDefault()
 
     try {
-      const response = await fetch('http://localhost:5050/api/auth/register', {
+        const response = await fetch(`${API_URL}/api/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

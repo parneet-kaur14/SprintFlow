@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import './Focus.css'
+import { API_URL } from '../api'
 
 function Focus() {
   const [focusMinutes, setFocusMinutes] = useState(25)
@@ -98,7 +99,7 @@ function Focus() {
   useEffect(() => {
     const token = localStorage.getItem('token')
   
-    fetch('http://localhost:5050/api/projects', {
+    fetch(`${API_URL}/api/projects`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -108,7 +109,7 @@ function Focus() {
         const taskResults = await Promise.all(
           projects.map((project) =>
             fetch(
-              `http://localhost:5050/api/tasks/project/${project.id}`,
+              `${API_URL}/api/tasks/project/${project.id}`,
               {
                 headers: {
                   Authorization: `Bearer ${token}`,

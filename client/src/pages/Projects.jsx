@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './Projects.css'
 import { Link, useNavigate } from 'react-router-dom'
+import { API_URL } from '../api'
 
 function Projects() {
   const [projects, setProjects] = useState([])
@@ -17,7 +18,7 @@ function Projects() {
   useEffect(() => {
     const token = localStorage.getItem('token')
 
-    fetch('http://localhost:5050/api/projects', {
+    fetch(`${API_URL}/api/projects`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -60,7 +61,7 @@ function Projects() {
     const token = localStorage.getItem('token')
   
     try {
-      const response = await fetch('http://localhost:5050/api/projects', {
+        const response = await fetch(`${API_URL}/api/projects`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -106,7 +107,7 @@ function Projects() {
     const token = localStorage.getItem('token')
   
     const response = await fetch(
-      `http://localhost:5050/api/projects/${editingProject.id}`,
+      `${API_URL}/api/projects/${editingProject.id}`,
       {
         method: 'PUT',
         headers: {
@@ -141,7 +142,7 @@ function Projects() {
   
     try {
       const response = await fetch(
-        `http://localhost:5050/api/projects/${projectToDelete.id}`,
+        `${API_URL}/api/projects/${projectToDelete.id}`,
         {
           method: 'DELETE',
           headers: {

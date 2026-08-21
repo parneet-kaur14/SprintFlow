@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { API_URL } from '../api'
 
 function Login() {
   const [email, setEmail] = useState('')
@@ -11,7 +12,7 @@ function Login() {
     event.preventDefault()
 
     try {
-      const response = await fetch('http://localhost:5050/api/auth/login', {
+        const response = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

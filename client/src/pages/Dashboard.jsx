@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { API_URL } from '../api'
 import './Dashboard.css'
 
 function Dashboard() {
@@ -17,7 +18,7 @@ function Dashboard() {
   useEffect(() => {
     const token = localStorage.getItem('token')
 
-    fetch('http://localhost:5050/api/projects', {
+    fetch(`${API_URL}/api/projects`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -28,7 +29,7 @@ function Dashboard() {
           console.error('Unable to load projects:', error)
         )
 
-    fetch('http://localhost:5050/api/tasks/stats/dashboard', {
+        fetch(`${API_URL}/api/tasks/stats/dashboard`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -39,7 +40,7 @@ function Dashboard() {
         console.error('Unable to load dashboard stats:', error)
       )
 
-    fetch('http://localhost:5050/api/tasks/deadlines/upcoming', {
+      fetch(`${API_URL}/api/tasks/deadlines/upcoming`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -50,7 +51,7 @@ function Dashboard() {
         console.error('Unable to load deadlines:', error)
       )
 
-      fetch('http://localhost:5050/api/projects', {
+      fetch(`${API_URL}/api/projects`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -60,7 +61,7 @@ function Dashboard() {
           const activityResults = await Promise.all(
             projects.slice(0, 3).map((project) =>
               fetch(
-                `http://localhost:5050/api/activities/project/${project.id}`,
+                `${API_URL}/api/activities/project/${project.id}`,
                 {
                   headers: {
                     Authorization: `Bearer ${token}`,

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './ProjectBoard.css'
 import { useNavigate, useParams } from 'react-router-dom'
+import { API_URL } from '../api'
 
 import {
     DndContext,
@@ -101,7 +102,7 @@ function ProjectBoard() {
   const loadActivities = () => {
     const token = localStorage.getItem('token')
   
-    fetch(`http://localhost:5050/api/activities/project/${projectId}`, {
+    fetch(`${API_URL}/api/activities/project/${projectId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -115,7 +116,7 @@ function ProjectBoard() {
   
   useEffect(() => {
     const token = localStorage.getItem('token')
-    fetch(`http://localhost:5050/api/projects/${projectId}`, {
+    fetch(`${API_URL}/api/projects/${projectId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -124,7 +125,7 @@ function ProjectBoard() {
         .then((data) => setProject(data))
         .catch((error) => console.error('Unable to load project:', error))
 
-    fetch(`http://localhost:5050/api/tasks/project/${projectId}`, {
+        fetch(`${API_URL}/api/tasks/project/${projectId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -149,7 +150,7 @@ function ProjectBoard() {
         setLoading(false)
       })
 
-      fetch(`http://localhost:5050/api/projects/${projectId}/members`, {
+      fetch(`${API_URL}/api/projects/${projectId}/members`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -184,7 +185,7 @@ function ProjectBoard() {
     const token = localStorage.getItem('token')
   
     try {
-      const response = await fetch('http://localhost:5050/api/tasks', {
+        const response = await fetch(`${API_URL}/api/tasks`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -239,7 +240,7 @@ function ProjectBoard() {
     const token = localStorage.getItem('token')
   
     try {
-      const response = await fetch(`http://localhost:5050/api/tasks/${task.id}`, {
+        const response = await fetch(`${API_URL}/api/tasks/${task.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -302,7 +303,7 @@ function ProjectBoard() {
     const token = localStorage.getItem('token')
   
     try {
-      const response = await fetch(`http://localhost:5050/api/tasks/${taskId}`, {
+        const response = await fetch(`${API_URL}/api/tasks/${taskId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -348,7 +349,7 @@ function ProjectBoard() {
   
     try {
       const response = await fetch(
-        `http://localhost:5050/api/tasks/${editingTask.id}`,
+        `${API_URL}/api/tasks/${editingTask.id}`,
         {
           method: 'PUT',
           headers: {
@@ -407,7 +408,7 @@ function ProjectBoard() {
   
     try {
       const response = await fetch(
-        `http://localhost:5050/api/projects/${projectId}/members`,
+        `${API_URL}/api/projects/${projectId}/members`,
         {
           method: 'POST',
           headers: {
@@ -440,7 +441,7 @@ function ProjectBoard() {
   
     try {
       const response = await fetch(
-        `http://localhost:5050/api/projects/${projectId}/members/${userId}`,
+        `${API_URL}/api/projects/${projectId}/members/${userId}`,
         {
           method: 'DELETE',
           headers: {
