@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { API_URL } from '../api'
+import './Login.css'
 
 function Login() {
   const [email, setEmail] = useState('')
@@ -40,36 +41,43 @@ function Login() {
   }
 
   return (
-    <main>
-      <h1>Login</h1>
-
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
+    <main className="auth-page">
+      <section className="auth-card">
+        <div className="auth-brand">
+          <h1>SprintFlow</h1>
+          <p>Sign in to manage your projects and tasks.</p>
         </div>
-
-        <div>
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </div>
-
-        <button type="submit">Login</button>
-      </form>
-
-      <p>
-        Don't have an account? <Link to="/register">Create one</Link>
+  
+        <form className="auth-form" onSubmit={handleSubmit}>
+          <div className="auth-field">
+            <label>Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </div>
+  
+          <div className="auth-field">
+            <label>Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </div>
+  
+          <button className="auth-button" type="submit">
+            Login
+          </button>
+        </form>
+  
+        <p className="auth-footer">
+          Don't have an account? <Link to="/register">Create one</Link>
         </p>
-
-      {message && <p>{message}</p>}
+  
+        {message && <p className="auth-message">{message}</p>}
+      </section>
     </main>
   )
 }

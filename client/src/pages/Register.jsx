@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { API_URL } from '../api'
+import './Login.css'
 
 function Register() {
   const [name, setName] = useState('')
@@ -38,45 +39,52 @@ function Register() {
   }
 
   return (
-    <main>
-      <h1>Create Account</h1>
-
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-          />
+    <main className="auth-page">
+      <section className="auth-card">
+        <div className="auth-brand">
+          <h1>SprintFlow</h1>
+          <p>Create an account to start managing your projects.</p>
         </div>
-
-        <div>
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
-        </div>
-
-        <div>
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </div>
-
-        <button type="submit">Register</button>
-      </form>
-
-      <p>
-        Already have an account? <Link to="/login">Log in</Link>
+  
+        <form className="auth-form" onSubmit={handleSubmit}>
+          <div className="auth-field">
+            <label>Name</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+            />
+          </div>
+  
+          <div className="auth-field">
+            <label>Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </div>
+  
+          <div className="auth-field">
+            <label>Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </div>
+  
+          <button className="auth-button" type="submit">
+            Create Account
+          </button>
+        </form>
+  
+        <p className="auth-footer">
+          Already have an account? <Link to="/login">Log in</Link>
         </p>
-
-      {message && <p>{message}</p>}
+  
+        {message && <p className="auth-message">{message}</p>}
+      </section>
     </main>
   )
 }
