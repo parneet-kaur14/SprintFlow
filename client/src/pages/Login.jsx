@@ -8,6 +8,8 @@ function Login() {
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
   const navigate = useNavigate()
+  const DEMO_EMAIL = 'demo1@sprintflow.app'
+  const DEMO_PASSWORD = 'pepvow-Xoxxaf-1reske'
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -28,6 +30,37 @@ function Login() {
 
       if (!response.ok) {
         setMessage(data.message)
+        return
+      }
+
+      localStorage.setItem('token', data.token)
+      localStorage.setItem('user', JSON.stringify(data.user))
+
+      navigate('/dashboard')
+    } catch (error) {
+      setMessage('Unable to connect to server')
+    }
+  }
+
+  const handleDemoLogin = async () => {
+    setMessage('')
+
+    try {
+      const response = await fetch(`${API_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: DEMO_EMAIL,
+          password: DEMO_PASSWORD,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        setMessage(data.message || 'Unable to access demo account')
         return
       }
 
@@ -70,6 +103,17 @@ function Login() {
           <button className="auth-button" type="submit">
             Login
           </button>
+          <div className="auth-divider">
+            <span>or</span>
+            </div>
+
+            <button
+            className="demo-button"
+            type="button"
+            onClick={handleDemoLogin}
+            >
+            Try Demo Account
+            </button>
         </form>
   
         <p className="auth-footer">

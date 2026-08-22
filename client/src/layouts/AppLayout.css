@@ -148,21 +148,39 @@
     }
   
     .sidebar {
-      width: auto;
+      width: 100%;
+      height: auto;
       min-height: auto;
+      position: static;
+      padding: 20px;
+  
       border-right: none;
       border-bottom: 1px solid #e5e7eb;
+      overflow: visible;
+    }
+  
+    .logo {
+      margin-bottom: 20px;
     }
   
     .sidebar-nav {
       flex-direction: row;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+  
+    .sidebar-nav a {
+      padding: 10px 12px;
     }
   
     .main-content {
+      width: 100%;
       padding: 20px;
+      min-width: 0;
     }
   
     .topbar {
+      flex-wrap: wrap;
       align-items: flex-start;
       gap: 16px;
     }
